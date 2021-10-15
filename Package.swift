@@ -26,5 +26,6 @@ let package = Package(
             name: "AlamofireObjectMapper",
             dependencies: ["Alamofire", "ObjectMapper"]),
             path: "./AlamofireObjectMapper"
+        ),
     ]
 )
