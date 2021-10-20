@@ -24,7 +24,8 @@ let package = Package(
         .target(
             name: "AlamofireObjectMapper",
             dependencies: ["Alamofire", "ObjectMapper"],
-            path: "./AlamofireObjectMapper"
+            path: "./AlamofireObjectMapper",
+            exclude: ["Info.plist"]
         ),
     ]
 )
