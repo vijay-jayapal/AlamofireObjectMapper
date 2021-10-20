@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AlamofireObjectMapper",
     platforms: [
-        .iOS(.v10),
+        .iOS(.v13),
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -15,8 +15,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Alamofire/Alamofire.git", .exact("4.7.3")),
-        .package(url: "https://github.com/tristanhimmelman/ObjectMapper.git", .exact("3.3.0")),
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "4.8.2"),
+        .package(url: "https://github.com/tristanhimmelman/ObjectMapper.git", from: "3.5.3"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
