@@ -30,7 +30,7 @@ import Foundation
 import Alamofire
 import ObjectMapper
 
-extension DataRequest {
+extension Alamofire.DataRequest {
     
     enum ErrorCode: Int {
         case noData = 1
@@ -61,9 +61,8 @@ extension DataRequest {
     
     /// Utility function for extracting JSON from response
     internal static func processResponse(request: URLRequest?, response: HTTPURLResponse?, data: Data?, keyPath: String?) -> Any? {
-        let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
-        let result = jsonResponseSerializer.serializeResponse(request, response, data, nil)
-        
+        let jsonResponseSerializer = JSONResponseSerializer(options: .allowFragments)
+        let result = try! jsonResponseSerializer.serialize(request: request, response: response, data: data, error: nil)
         let JSON: Any?
         if let keyPath = keyPath , keyPath.isEmpty == false {
             JSON = (result.value as AnyObject?)?.value(forKeyPath: keyPath)
@@ -75,7 +74,7 @@ extension DataRequest {
     }
     
     /// BaseMappable Object Serializer
-    public static func ObjectMapperSerializer<T: BaseMappable>(_ keyPath: String?, mapToObject object: T? = nil, context: MapContext? = nil) -> DataResponseSerializer<T> {
+  public static func ObjectMapperSerializer<T: BaseMappable>(_ keyPath: String?, mapToObject object: T? = nil, context: MapContext? = nil) -> DataResponseSerializer {
         return DataResponseSerializer { request, response, data, error in
             if let error = checkResponseForError(request: request, response: response, data: data, error: error){
                 return .failure(error)
@@ -97,7 +96,7 @@ extension DataRequest {
     }
     
     /// ImmutableMappable Array Serializer
-    public static func ObjectMapperImmutableSerializer<T: ImmutableMappable>(_ keyPath: String?, context: MapContext? = nil) -> DataResponseSerializer<T> {
+  public static func ObjectMapperImmutableSerializer<T: ImmutableMappable>(_ keyPath: String?, context: MapContext? = nil) -> DataResponseSerializer {
         return DataResponseSerializer { request, response, data, error in
             if let error = checkResponseForError(request: request, response: response, data: data, error: error){
                 return .failure(error)
